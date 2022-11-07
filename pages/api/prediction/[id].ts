@@ -5,14 +5,24 @@ import { ReplicateState } from '../../../src/replicate'
 import { PredictionType } from '../../../src/types'
 
 type Data = {
-  status: ReplicateState
-  output?: string[]
+  status: Extract<
+    ReplicateState,
+    'starting' | 'processing' | 'failed' | 'canceled'
+  >
   id: string
 }
 
+type SuccessResponse = {
+  status: Extract<ReplicateState, 'succeeded'>
+  output: string[]
+  id: string
+}
+
+export type PredictionIdResponse = Data | SuccessResponse
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<PredictionIdResponse>
 ) {
   const id = Array.isArray(req.query.id) ? req.query.id[0] : req.query.id || ''
   const result = await fetch(`https://api.replicate.com/v1/predictions/${id}`, {
@@ -43,9 +53,14 @@ export default async function handler(
     console.log('💾 Saving to firebase successful', doc)
   }
 
-  res.status(200).json({
+  const responseObject = {
     id: json.id,
     status: json.status,
-    output: json.output,
-  })
+  } as PredictionIdResponse
+
+  if (responseObject.status === 'succeeded') {
+    responseObject.output = json.output
+  }
+
+  res.status(200).json(responseObject)
 }

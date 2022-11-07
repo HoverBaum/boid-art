@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { styles } from './styles'
+import { styles } from '../styles'
 
 type StyleSelectProps = {
   onStyleChange: (styleId: string) => void
