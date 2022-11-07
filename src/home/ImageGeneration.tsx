@@ -6,11 +6,13 @@ import { PredictionIdResponse } from '../../pages/api/prediction/[id]'
 // States being added to ReplicateState for local purposes.
 type ExtraStates = 'idle' | 'submitted'
 
+export type AppStates = ReplicateState | ExtraStates
+
 // Interval in which we check the status of a prompt being generated.
 const POLLING_TIME = 500
 
 export const ImageGeneration = () => {
-  const [status, setStatus] = useState<ReplicateState | ExtraStates>('idle')
+  const [status, setStatus] = useState<AppStates>('idle')
   const [prompt, setPrompt] = useState<string>('a purple unicorn')
   const [currentPredictionId, setCurrentPredictionId] = useState<string>('')
   const [imageUrl, setImageUrl] = useState<string>('')
