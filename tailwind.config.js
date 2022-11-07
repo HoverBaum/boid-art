@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      cormorant: ["'Cormorant Garamond', serif"],
+    },
   },
   safelist: [
     'grid-cols-1',

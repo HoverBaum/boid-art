@@ -3,6 +3,7 @@ import { ReplicateState } from '../replicate'
 import { StyleSelect } from '../home/StyleSelect'
 import { PredictionIdResponse } from '../../pages/api/prediction/[id]'
 import { Button } from '../components/Button'
+import { Container } from '../components/Container'
 
 // States being added to ReplicateState for local purposes.
 type ExtraStates = 'idle' | 'submitted'
@@ -66,30 +67,36 @@ export const ImageGeneration = () => {
   }, [status])
   return (
     <div>
-      {' '}
-      <label
-        htmlFor="message"
-        className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
-      >
-        Prompt
-      </label>
-      <textarea
-        id="message"
-        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        onChange={(e) => setPrompt(e.target.value)}
-        value={prompt}
-      ></textarea>
-      <StyleSelect onStyleChange={setStyleId} />
-      <Button
-        disabled={
-          status === 'submitted' ||
-          status === 'processing' ||
-          status === 'starting'
-        }
-        onClick={generate}
-      >
-        Generate
-      </Button>
+      <div className="h-screen bg-[url('/marble.jpg')] bg-cover bg-center">
+        <Container>
+          <div className="relative h-40">
+            <h1 className="text-9xl tracking-wider font-bold font-cormorant text-right absolute right-0 w-screen">
+              GENERATE ART
+            </h1>
+            <h2 className="text-2xl absolute top-28 -right-10">
+              WITH ARTIFICAIAL INTELLIGENCE
+            </h2>
+          </div>
+
+          <textarea
+            id="message"
+            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            onChange={(e) => setPrompt(e.target.value)}
+            value={prompt}
+          ></textarea>
+          <StyleSelect onStyleChange={setStyleId} />
+          <Button
+            disabled={
+              status === 'submitted' ||
+              status === 'processing' ||
+              status === 'starting'
+            }
+            onClick={generate}
+          >
+            Generate
+          </Button>
+        </Container>
+      </div>
       <div id="prediction">
         <p>Status: {status}</p>
         {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
