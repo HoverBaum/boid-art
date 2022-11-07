@@ -1,4 +1,5 @@
-import { ComponentType } from 'react'
+import Image from 'next/image'
+import { ComponentType, useState } from 'react'
 import { styles } from '../styles'
 
 type StyleSelectProps = {
@@ -8,25 +9,27 @@ type StyleSelectProps = {
 export const StyleSelect: ComponentType<StyleSelectProps> = ({
   onStyleChange,
 }) => {
+  const [selectedStyleId, setSelectedStyleId] = useState<string>('default')
+
+  const onStyleSelect = (newStyleId: string) => {
+    setSelectedStyleId(newStyleId)
+    onStyleChange(newStyleId)
+  }
+
   return (
-    <>
-      {styles.map(({ id, name }) => (
-        <div className="flex items-center mb-4" key={id}>
-          <input
-            id={`styleSelect-${id}`}
-            type="radio"
-            name="style-select"
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            onChange={() => onStyleChange(id)}
-          />
-          <label
-            htmlFor={`styleSelect-${id}`}
-            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            {name}
-          </label>
+    <div className={`grid grid-cols-${styles.length} p-4`}>
+      {styles.map(({ id, name, image }) => (
+        <div
+          className={`w-32 ${
+            selectedStyleId === id ? 'outline-violet-500 outline' : 'grayscale'
+          } hover:grayscale-0 hover:cursor-pointer`}
+          key={id}
+          onClick={() => onStyleSelect(id)}
+        >
+          <Image src={image} alt={name} />
+          <span>{name}</span>
         </div>
       ))}
-    </>
+    </div>
   )
 }
