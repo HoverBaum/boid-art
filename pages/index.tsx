@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { DetailedStyleExplanation } from '../src/home/DetailedStyleExplanation'
 import { ImageGeneration } from '../src/home/ImageGeneration'
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
     <div>
       <Link href="/results">Results</Link>
       <ImageGeneration />
+      <DetailedStyleExplanation />
     </div>
   )
 }

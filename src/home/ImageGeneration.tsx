@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ReplicateState } from '../replicate'
 import { StyleSelect } from '../home/StyleSelect'
 import { PredictionIdResponse } from '../../pages/api/prediction/[id]'
+import { Button } from '../components/Button'
 
 // States being added to ReplicateState for local purposes.
 type ExtraStates = 'idle' | 'submitted'
@@ -71,17 +72,16 @@ export const ImageGeneration = () => {
         value={prompt}
       ></textarea>
       <StyleSelect onStyleChange={setStyleId} />
-      <button
+      <Button
         disabled={
           status === 'submitted' ||
           status === 'processing' ||
           status === 'starting'
         }
         onClick={generate}
-        className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
       >
         Generate
-      </button>
+      </Button>
       <p>Status: {status}</p>
       {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
     </div>

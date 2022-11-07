@@ -1,3 +1,4 @@
+import { StaticImageData } from 'next/image'
 import { ReplicateState } from './replicate'
 
 export type PredictionType = {
@@ -18,4 +19,6 @@ export type StyleType = {
   id: string
   // Displayed name of the style.
   name: string
+  // Image to display for this style.
+  image: StaticImageData
 }
