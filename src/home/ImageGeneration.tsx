@@ -21,6 +21,14 @@ export const ImageGeneration = () => {
 
   // Trigger generation of a new artwork.
   const generate = async () => {
+    // Scroll down to the prediction.
+    const predictionElement = document.getElementById('prediction')
+    console.log('predictionElement', predictionElement)
+    if (predictionElement) {
+      const bounds = predictionElement.getBoundingClientRect()
+      window.scrollTo(0, bounds.top)
+    }
+
     setStatus('submitted')
     const response = await fetch('/api/prediction', {
       method: 'POST',
@@ -82,8 +90,10 @@ export const ImageGeneration = () => {
       >
         Generate
       </Button>
-      <p>Status: {status}</p>
-      {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
+      <div id="prediction">
+        <p>Status: {status}</p>
+        {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
+      </div>
     </div>
   )
 }

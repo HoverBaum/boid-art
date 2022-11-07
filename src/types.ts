@@ -19,6 +19,8 @@ export type StyleType = {
   id: string
   // Displayed name of the style.
   name: string
+  // Description of the style.
+  description: string
   // Image to display for this style.
   image: StaticImageData
 }
