@@ -33,7 +33,6 @@ export default function Results() {
       setPredictions(sortedPredictions)
     })
     return unsub
-    // setup()
   }, [])
 
   return (

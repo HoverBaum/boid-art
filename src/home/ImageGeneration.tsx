@@ -114,6 +114,7 @@ export const ImageGeneration = () => {
               </>
             )}
           </div>
+          <p className="text-xl mt-2">{prompt}</p>
         </Container>
       </div>
     </div>
