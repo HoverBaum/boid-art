@@ -22,16 +22,20 @@ export const DetailedStyleExplanation = () => {
               className="my-6 bg-[#232323] p-4 grid grid-cols-4 rounded-2xl"
               key={id}
             >
-              <div className="mr-6 col-span-1">
+              <div className="mr-6 col-span-4 sm:col-span-1 mb-12">
                 <h2 className="text-2xl mb-4">{name}</h2>
                 <p>{description}</p>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 w-full col-span-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 w-full col-span-4 sm:col-span-3">
                 {styleImages
                   .filter((image) => image.styleId === id)
                   .map(({ image, prompt, styleId }) => (
                     <figure key={styleId + prompt}>
-                      <Image alt={prompt} src={image} className="rounded-2xl" />
+                      <Image
+                        alt={prompt}
+                        src={image}
+                        className="rounded-2xl mb-2"
+                      />
                       <figcaption>{prompt}</figcaption>
                     </figure>
                   ))}
