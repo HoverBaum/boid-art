@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ReplicateState } from '../replicate'
 import { StyleSelect } from '../home/StyleSelect'
 import { PredictionIdResponse } from '../../pages/api/prediction/[id]'
 import { Button } from '../components/Button'
 import { Container } from '../components/Container'
 import { Spinner } from '../components/Spinner'
+import { styles } from '../styles/styles'
 
 // States being added to ReplicateState for local purposes.
 type ExtraStates = 'idle' | 'submitted'
@@ -19,6 +20,8 @@ export const ImageGeneration = () => {
   const [prompt, setPrompt] = useState<string>('a purple unicorn')
   const [currentPredictionId, setCurrentPredictionId] = useState<string>('')
   const [imageUrl, setImageUrl] = useState<string>('')
+  const [predictionResponse, setPredictionResponse] =
+    useState<PredictionIdResponse>()
   const [styleId, setStyleId] = useState<string>('default')
 
   // Trigger generation of a new artwork.
@@ -50,6 +53,7 @@ export const ImageGeneration = () => {
     const currentStatus = data.status as ReplicateState
     if (data.status === 'succeeded') {
       setImageUrl(data.output[0])
+      setPredictionResponse(data)
     }
     console.log('👀 current status:', currentStatus)
     setStatus(currentStatus)
@@ -65,6 +69,14 @@ export const ImageGeneration = () => {
       fetchStatus()
     }
   }, [status])
+
+  const isRunningPrediction = useMemo(
+    () =>
+      status === 'submitted' ||
+      status === 'processing' ||
+      status === 'starting',
+    [status]
+  )
   return (
     <div>
       <div className="h-screen bg-[url('/marble.jpg')] bg-cover bg-center">
@@ -85,16 +97,7 @@ export const ImageGeneration = () => {
             value={prompt}
           ></textarea>
           <StyleSelect onStyleChange={setStyleId} />
-          <Button
-            disabled={
-              status === 'submitted' ||
-              status === 'processing' ||
-              status === 'starting'
-            }
-            onClick={generate}
-          >
-            Generate
-          </Button>
+          <Button onClick={generate}>Generate</Button>
           <Button type="secondary" onClick={() => setPrompt('')}>
             Clear
           </Button>
@@ -105,7 +108,7 @@ export const ImageGeneration = () => {
       <div id="prediction" className="h-screen grid place-items-center">
         <Container>
           <div className="w-[512px] h-[512px] grid place-items-center bg-gray-50 bg-opacity-25">
-            {(status === 'submitted' || status === 'processing') && <Spinner />}
+            {isRunningPrediction && <Spinner />}
             {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
             {(status === 'failed' || status === 'canceled') && (
               <>
@@ -114,7 +117,28 @@ export const ImageGeneration = () => {
               </>
             )}
           </div>
-          <p className="text-xl mt-2">{prompt}</p>
+          {status !== 'idle' && (
+            <div>
+              {predictionResponse && (
+                <p className="text-xl mt-2">
+                  {predictionResponse.originalPrompt} -{' '}
+                  {
+                    styles.find(
+                      (style) => style.id === predictionResponse.styleId
+                    )?.name
+                  }
+                </p>
+              )}
+              <Button
+                type="secondary"
+                onClick={() => {
+                  setPrompt(''), window.scrollTo(0, 0)
+                }}
+              >
+                Try different prompt
+              </Button>
+            </div>
+          )}
         </Container>
       </div>
     </div>

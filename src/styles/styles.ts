@@ -1,9 +1,9 @@
-import { StyleType } from './types'
-import defaultImage from './images/default.png'
-import picassoImage from './images/picasso-4.png'
-import goldenHourImage from './images/golden-hour-4.png'
-import ghibliCyberpunkImage from './images/ghibli-cyberpunk-4.png'
-import conceptArtImage from './images/concept-art-4.png'
+import { StyleType } from '../types'
+import defaultImage from '../images/default.png'
+import picassoImage from '../images/picasso-4.png'
+import goldenHourImage from '../images/golden-hour-4.png'
+import ghibliCyberpunkImage from '../images/ghibli-cyberpunk-4.png'
+import conceptArtImage from '../images/concept-art-4.png'
 
 export const styles: StyleType[] = [
   {

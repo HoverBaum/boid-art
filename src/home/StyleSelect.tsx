@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { ComponentType, useState } from 'react'
-import { styles } from '../styles'
+import { styles } from '../styles/styles'
 
 type StyleSelectProps = {
   onStyleChange: (styleId: string) => void
