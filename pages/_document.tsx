@@ -6,11 +6,11 @@ export default function Document() {
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Roboto&display=swap"
           rel="stylesheet"
         />
       </Head>
-      <body>
+      <body className="text-roboto">
         <Main />
         <NextScript />
       </body>
