@@ -4,6 +4,7 @@ import { StyleSelect } from '../home/StyleSelect'
 import { PredictionIdResponse } from '../../pages/api/prediction/[id]'
 import { Button } from '../components/Button'
 import { Container } from '../components/Container'
+import { Spinner } from '../components/Spinner'
 
 // States being added to ReplicateState for local purposes.
 type ExtraStates = 'idle' | 'submitted'
@@ -24,7 +25,6 @@ export const ImageGeneration = () => {
   const generate = async () => {
     // Scroll down to the prediction.
     const predictionElement = document.getElementById('prediction')
-    console.log('predictionElement', predictionElement)
     if (predictionElement) {
       const bounds = predictionElement.getBoundingClientRect()
       window.scrollTo(0, bounds.top)
@@ -70,7 +70,7 @@ export const ImageGeneration = () => {
       <div className="h-screen bg-[url('/marble.jpg')] bg-cover bg-center">
         <Container>
           <div className="relative h-40">
-            <h1 className="text-9xl tracking-wider font-bold font-cormorant text-right absolute right-0 w-screen">
+            <h1 className="text-8xl tracking-wider font-bold font-cormorant text-right absolute right-0 w-screen">
               GENERATE ART
             </h1>
             <h2 className="text-2xl absolute top-28 -right-10">
@@ -95,11 +95,26 @@ export const ImageGeneration = () => {
           >
             Generate
           </Button>
+          <Button type="secondary" onClick={() => setPrompt('')}>
+            Clear
+          </Button>
         </Container>
       </div>
-      <div id="prediction">
-        <p>Status: {status}</p>
-        {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
+
+      {/* Predoction area */}
+      <div id="prediction" className="h-screen grid place-items-center">
+        <Container>
+          <div className="w-[512px] h-[512px] grid place-items-center bg-gray-50 bg-opacity-25">
+            {(status === 'submitted' || status === 'processing') && <Spinner />}
+            {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
+            {(status === 'failed' || status === 'canceled') && (
+              <>
+                <p>Status: {status}</p>
+                <p>Something went wrong. Please try again.</p>
+              </>
+            )}
+          </div>
+        </Container>
       </div>
     </div>
   )

@@ -9,7 +9,7 @@ export const styles: StyleType[] = [
   {
     style: '',
     id: 'default',
-    name: 'No speacial style',
+    name: 'No style',
     description: 'The default style, no special effects.',
     image: defaultImage,
   },
@@ -24,7 +24,7 @@ export const styles: StyleType[] = [
     style:
       'golden hour, dream - like mysterious atmosphere, in the wastelands, baroque landscape painting, perfect composition, beautiful detailed intricate insanely detailed octane render trending on artstation, 8 k artistic photography, photorealistic, soft natural volumetric cinematic perfect light, chiaroscuro, award - winning photograph, masterpiece, raphael, caravaggio, greg rutkowski, beeple, beksinski',
     id: 'goldenHourRender',
-    name: 'Golden Hour Render',
+    name: 'Golden Hour',
     description:
       'A mix of a CGI render and classical fantasy illustration. Lends itself well to landscapes.',
     image: goldenHourImage,
@@ -33,7 +33,7 @@ export const styles: StyleType[] = [
     style:
       'A highly detailed matte painting of {prompt} by Studio Ghibli, Makoto Shinkai, by Artgerm, by WLOP, by Greg Rutkowski, volumetric lighting, octane render, 4K resolution, trending on artstation, masterpiece, cyberpunk',
     id: 'cyberpunkMatteGhibli',
-    name: 'Cyberpunk Matte Painting',
+    name: 'Cyberpunk',
     description:
       'Cyberpunk inspired art that Studio Ghibli might use for backgorunds in their animes.',
     image: ghibliCyberpunkImage,
