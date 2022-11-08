@@ -154,6 +154,9 @@ export const ImageGeneration = () => {
                 <p>Something went wrong. Please try again.</p>
               </>
             )}
+            {status === 'idle' && (
+              <p>Get started by generating an image above.</p>
+            )}
           </div>
           {status !== 'idle' && lastPrediction && (
             <div className="mt-4">
