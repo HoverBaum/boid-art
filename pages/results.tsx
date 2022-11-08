@@ -35,22 +35,35 @@ export default function Results() {
     return unsub
   }, [])
 
+
+  const linkStyle = {
+    letterSpacing: 5
+  };
+
   return (
     <div>
-      <Link href="/">Generate</Link>
-      <h1>Results</h1>
-      <div>
-        {predictions.map((prediction) => (
-          <figure key={prediction.id}>
-            <img src={prediction.imageUrl} alt={prediction.prompt} />
-            <figcaption>
-              <p>
-                {prediction.originalPrompt} - {prediction.styleId}
-              </p>
-            </figcaption>
-          </figure>
-        ))}
-      </div>
+      <Link className="absolute top-6 z-10 left-6" style={linkStyle} href="/">
+        {'<'}-- GENERATE
+      </Link>
+      <div className="p-16">
+        <div className='my-6 pl-8 pr-8 grid grid-cols-4 grid sm:grid-cols-4 gap-8'>
+          {predictions.map((prediction) => (
+            <figure key={prediction.id}>
+              <div className='group relative'>
+                <img src={prediction.imageUrl} alt={prediction.prompt} className="rounded-2xl"/>
+                <div className="absolute top-0 left-0 w-full h-full flex flex-col rounded-2xl justify-center items-center bg-black opacity-0 group-hover:opacity-75 duration-500">
+                  <h1 className="text-2xl text-white">Style: {prediction.styleId}</h1>
+                </div>
+              </div>
+              <figcaption className='pt-2'>
+                <p className='font-light text-sm'>
+                  {prediction.originalPrompt}
+                </p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>  
     </div>
   )
 }
