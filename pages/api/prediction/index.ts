@@ -2,8 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { firestore } from '../../../src/apiUtils/firestore'
 import { ReplicateState } from '../../../src/replicate'
-import { stylePrompt } from '../../../src/stylePrompt'
-import { styles } from '../../../src/styles'
+import { stylePrompt } from '../../../src/styles/stylePrompt'
+import { styles } from '../../../src/styles/styles'
 import { PredictionType } from '../../../src/types'
 
 type Data = {

@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      cormorant: ["'Cormorant Garamond', serif"],
+      cormorant: ["'Cormorant Garamond'", 'serif'],
+      roboto: ["'Roboto'", 'sans-serif'],
     },
   },
   safelist: [

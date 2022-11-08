@@ -10,16 +10,12 @@ type Data = {
     'starting' | 'processing' | 'failed' | 'canceled'
   >
   id: string
-  originalPrompt: string
-  styleId: string
 }
 
 type SuccessResponse = {
   status: Extract<ReplicateState, 'succeeded'>
   output: string[]
   id: string
-  originalPrompt: string
-  styleId: string
 }
 
 export type PredictionIdResponse = Data | SuccessResponse
@@ -60,8 +56,6 @@ export default async function handler(
   const responseObject = {
     id: json.id,
     status: json.status,
-    originalPrompt: json.originalPrompt,
-    styleId: json.styleId,
   } as PredictionIdResponse
 
   if (responseObject.status === 'succeeded') {

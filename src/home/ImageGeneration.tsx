@@ -5,7 +5,8 @@ import { PredictionIdResponse } from '../../pages/api/prediction/[id]'
 import { Button } from '../components/Button'
 import { Container } from '../components/Container'
 import { Spinner } from '../components/Spinner'
-import { styles } from '../styles/styles'
+import { nameForStyleId } from '../styles/styleUtils'
+import Link from 'next/link'
 
 // States being added to ReplicateState for local purposes.
 type ExtraStates = 'idle' | 'submitted'
@@ -19,9 +20,13 @@ export const ImageGeneration = () => {
   const [status, setStatus] = useState<AppStates>('idle')
   const [prompt, setPrompt] = useState<string>('a purple unicorn')
   const [currentPredictionId, setCurrentPredictionId] = useState<string>('')
-  const [imageUrl, setImageUrl] = useState<string>('')
+
+  // Remember prediction response and past predictions to display old prompt even while doing new attempts.
   const [predictionResponse, setPredictionResponse] =
     useState<PredictionIdResponse>()
+  const [pastPredictions, setPastPredictions] = useState<
+    { id: string; prompt: string; styleId: string }[]
+  >([])
   const [styleId, setStyleId] = useState<string>('default')
 
   // Trigger generation of a new artwork.
@@ -30,10 +35,16 @@ export const ImageGeneration = () => {
     const predictionElement = document.getElementById('prediction')
     if (predictionElement) {
       const bounds = predictionElement.getBoundingClientRect()
-      window.scrollTo(0, bounds.top)
+      // window.scrollTo(0, bounds.top)
+      window.scrollTo({
+        top: bounds.top,
+        left: 0,
+        behavior: 'smooth',
+      })
     }
 
     setStatus('submitted')
+
     const response = await fetch('/api/prediction', {
       method: 'POST',
       body: JSON.stringify({ prompt, styleId }),
@@ -41,6 +52,10 @@ export const ImageGeneration = () => {
     const data = await response.json()
     setStatus(data.status)
     setCurrentPredictionId(data.id)
+    setPastPredictions((pastPredictions) => [
+      ...pastPredictions,
+      { id: data.id, prompt, styleId },
+    ])
   }
 
   // Fetch the current status of the current prediction and continue while processing.
@@ -50,11 +65,9 @@ export const ImageGeneration = () => {
       method: 'GET',
     })
     const data = (await response.json()) as PredictionIdResponse
+    console.log(data)
+    setPredictionResponse(data)
     const currentStatus = data.status as ReplicateState
-    if (data.status === 'succeeded') {
-      setImageUrl(data.output[0])
-      setPredictionResponse(data)
-    }
     console.log('👀 current status:', currentStatus)
     setStatus(currentStatus)
     if (currentStatus === 'processing' || currentStatus === 'starting') {
@@ -77,9 +90,27 @@ export const ImageGeneration = () => {
       status === 'starting',
     [status]
   )
+
+  const imageUrl = useMemo(() => {
+    if (predictionResponse && predictionResponse.status === 'succeeded') {
+      return predictionResponse.output[0]
+    }
+    return ''
+  }, [predictionResponse])
+
+  const lastPrediction = useMemo(() => {
+    if (!predictionResponse) return undefined
+    return pastPredictions.find(
+      (prediction) => prediction.id === predictionResponse?.id
+    )
+  }, [pastPredictions, predictionResponse])
+
   return (
     <div>
-      <div className="h-screen bg-[url('/marble.jpg')] bg-cover bg-center">
+      <Link className="absolute top-6 z-10 right-6" href="/results">
+        ART GALLERY --{'>'}
+      </Link>
+      <div className="h-screen bg-[url('/unicorn-marble.png')] bg-cover bg-center grid place-items-center">
         <Container>
           <div className="relative h-40">
             <h1 className="text-8xl tracking-wider font-bold font-cormorant text-right absolute right-0 w-screen">
@@ -117,25 +148,27 @@ export const ImageGeneration = () => {
               </>
             )}
           </div>
-          {status !== 'idle' && (
-            <div>
-              {predictionResponse && (
-                <p className="text-xl mt-2">
-                  {predictionResponse.originalPrompt} -{' '}
-                  {
-                    styles.find(
-                      (style) => style.id === predictionResponse.styleId
-                    )?.name
-                  }
-                </p>
-              )}
+          {status !== 'idle' && lastPrediction && (
+            <div className="mt-4">
+              <p className="text-xl my-2">
+                {status === 'submitted' ? (
+                  <span>Starting</span>
+                ) : (
+                  <span>
+                    {lastPrediction.prompt} -{' '}
+                    {nameForStyleId(lastPrediction?.styleId || '')}
+                  </span>
+                )}
+              </p>
+
               <Button
                 type="secondary"
                 onClick={() => {
-                  setPrompt(''), window.scrollTo(0, 0)
+                  window.scrollTo(0, 0)
+                  document.getElementById('message')?.focus()
                 }}
               >
-                Try different prompt
+                Try again
               </Button>
             </div>
           )}
