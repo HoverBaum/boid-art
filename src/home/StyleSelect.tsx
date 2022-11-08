@@ -20,13 +20,13 @@ export const StyleSelect: ComponentType<StyleSelectProps> = ({
     <div className={`grid grid-cols-${styles.length} p-4 gap-4`}>
       {styles.map(({ id, name, image }) => (
         <div
-          className={`border rounded-lg relative ${
-            selectedStyleId === id ? 'border-white-500 outline' : 'grayscale'
+          className={`rounded-lg overflow-hidden relative ${
+            selectedStyleId === id ? 'outline' : 'grayscale'
           } hover:grayscale-0 hover:cursor-pointer`}
           key={id}
           onClick={() => onStyleSelect(id)}
         >
-          <Image src={image} alt={name} />
+          <Image src={image} alt={name} className="object-cover h-10" />
           <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm">
             {name}
           </span>

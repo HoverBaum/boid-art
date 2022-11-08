@@ -128,10 +128,12 @@ export const ImageGeneration = () => {
             value={prompt}
           ></textarea>
           <StyleSelect onStyleChange={setStyleId} />
-          <Button onClick={generate}>Generate</Button>
-          <Button type="secondary" onClick={() => setPrompt('')}>
-            Clear
-          </Button>
+          <div className="flex justify-center mt-6">
+            <Button onClick={generate}>Generate</Button>
+            <Button type="secondary" onClick={() => setPrompt('')}>
+              Clear
+            </Button>
+          </div>
         </Container>
       </div>
 
