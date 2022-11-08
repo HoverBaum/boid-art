@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import { styleImages } from '../styleImages'
-import { styles } from '../styles'
+import { styleImages } from '../styles/styleImages'
+import { styles } from '../styles/styles'
 
 export const DetailedStyleExplanation = () => {
   return (
