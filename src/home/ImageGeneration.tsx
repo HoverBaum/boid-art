@@ -35,7 +35,6 @@ export const ImageGeneration = () => {
     const predictionElement = document.getElementById('prediction')
     if (predictionElement) {
       const bounds = predictionElement.getBoundingClientRect()
-      // window.scrollTo(0, bounds.top)
       window.scrollTo({
         top: bounds.top,
         left: 0,
@@ -110,13 +109,13 @@ export const ImageGeneration = () => {
       <Link className="absolute top-6 z-10 right-6" href="/results">
         ART GALLERY --{'>'}
       </Link>
-      <div className="h-screen bg-[url('/unicorn-marble.png')] bg-cover bg-center grid place-items-center">
+      <div className="h-screen bg-[url('/unicorn-marble.png')] bg-cover bg-center bg-no-repeat grid place-items-center px-4">
         <Container>
           <div className="relative h-40">
-            <h1 className="text-8xl tracking-wider font-bold font-cormorant text-right absolute right-0 w-screen">
+            <h1 className="text-6xl sm:text-8xl tracking-wider font-bold font-cormorant text-right absolute right-0 w-screen">
               GENERATE ART
             </h1>
-            <h2 className="text-2xl absolute top-28 -right-10">
+            <h2 className="text-xl sm:text-2xl absolute top-28 sm:-right-10 right-0">
               WITH ARTIFICAIAL INTELLIGENCE
             </h2>
           </div>
@@ -130,7 +129,13 @@ export const ImageGeneration = () => {
           <StyleSelect onStyleChange={setStyleId} />
           <div className="flex justify-center mt-6">
             <Button onClick={generate}>Generate</Button>
-            <Button type="secondary" onClick={() => setPrompt('')}>
+            <Button
+              type="secondary"
+              onClick={() => {
+                setPrompt('')
+                document.getElementById('message')?.focus()
+              }}
+            >
               Clear
             </Button>
           </div>
@@ -140,7 +145,7 @@ export const ImageGeneration = () => {
       {/* Predoction area */}
       <div id="prediction" className="h-screen grid place-items-center">
         <Container>
-          <div className="w-[512px] h-[512px] grid place-items-center bg-gray-50 bg-opacity-25">
+          <div className="sm:w-[512px] sm:h-[512px] w-[350px] h-[350px]  grid place-items-center bg-gray-50 bg-opacity-25">
             {isRunningPrediction && <Spinner />}
             {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
             {(status === 'failed' || status === 'canceled') && (
@@ -166,8 +171,11 @@ export const ImageGeneration = () => {
               <Button
                 type="secondary"
                 onClick={() => {
-                  window.scrollTo(0, 0)
-                  document.getElementById('message')?.focus()
+                  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+                  setTimeout(
+                    () => document.getElementById('message')?.focus(),
+                    500
+                  )
                 }}
               >
                 Try again
