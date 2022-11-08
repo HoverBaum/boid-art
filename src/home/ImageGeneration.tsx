@@ -145,7 +145,7 @@ export const ImageGeneration = () => {
       {/* Predoction area */}
       <div id="prediction" className="h-screen grid place-items-center">
         <Container>
-          <div className="sm:w-[512px] sm:h-[512px] w-[350px] h-[350px]  grid place-items-center bg-gray-50 bg-opacity-25">
+          <div className="sm:w-[512px] sm:h-[512px] w-[350px] h-[350px] rounded-2xl overflow-hidden grid place-items-center bg-gray-50 bg-opacity-25">
             {isRunningPrediction && <Spinner />}
             {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
             {(status === 'failed' || status === 'canceled') && (
