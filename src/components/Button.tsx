@@ -3,18 +3,32 @@ import { ComponentType, PropsWithChildren } from 'react'
 type ButtonProps = {
   onClick: () => void
   disabled?: boolean
+  type?: 'primary' | 'secondary'
 }
 
 export const Button: ComponentType<PropsWithChildren<ButtonProps>> = ({
   children,
   onClick,
   disabled = false,
+  type = 'primary',
 }) => {
+  if (type === 'secondary') {
+    return (
+      <button
+        disabled={disabled}
+        onClick={onClick}
+        className="text-blac bg-inherit hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 border-gray-50 border-2"
+      >
+        {children}
+      </button>
+    )
+  }
+
   return (
     <button
       disabled={disabled}
       onClick={onClick}
-      className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800"
+      className="text-black font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-50 hover:bg-gray-200 border-2"
     >
       {children}
     </button>
