@@ -7,6 +7,7 @@ import { Container } from '../components/Container'
 import { Spinner } from '../components/Spinner'
 import { nameForStyleId } from '../styles/styleUtils'
 import Link from 'next/link'
+import { Info } from '../components/Info'
 
 // States being added to ReplicateState for local purposes.
 type ExtraStates = 'idle' | 'submitted'
@@ -17,6 +18,7 @@ export type AppStates = ReplicateState | ExtraStates
 const POLLING_TIME = 500
 
 export const ImageGeneration = () => {
+  const [currentEvent, setCurrentEvent] = useState<string>('loading')
   const [status, setStatus] = useState<AppStates>('idle')
   const [prompt, setPrompt] = useState<string>('a purple unicorn')
   const [currentPredictionId, setCurrentPredictionId] = useState<string>('')
@@ -28,6 +30,18 @@ export const ImageGeneration = () => {
     { id: string; prompt: string; styleId: string }[]
   >([])
   const [styleId, setStyleId] = useState<string>('default')
+
+  // On mount check for current event.
+  useEffect(() => {
+    const checkEventStatus = async () => {
+      const response = await fetch('/api/event')
+      const json = await response.json()
+      const currentEventId = json.eventId || 'none'
+      console.log('Current event:', currentEventId)
+      setCurrentEvent(currentEventId)
+    }
+    checkEventStatus()
+  }, [])
 
   // Trigger generation of a new artwork.
   const generate = async () => {
@@ -124,29 +138,39 @@ export const ImageGeneration = () => {
               GENERATE ART
             </h1>
             <h2 className="text-xl sm:text-2xl absolute top-28 sm:-right-10 right-0">
-              WITH ARTIFICAIAL INTELLIGENCE
+              WITH ARTIFICIAL INTELLIGENCE
             </h2>
           </div>
 
-          <textarea
-            id="message"
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            onChange={(e) => setPrompt(e.target.value)}
-            value={prompt}
-          ></textarea>
-          <StyleSelect onStyleChange={setStyleId} />
-          <div className="flex justify-center mt-6">
-            <Button onClick={generate}>Generate</Button>
-            <Button
-              type="secondary"
-              onClick={() => {
-                setPrompt('')
-                document.getElementById('message')?.focus()
-              }}
-            >
-              Clear
-            </Button>
-          </div>
+          {currentEvent !== 'none' && (
+            <div>
+              <textarea
+                id="message"
+                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                onChange={(e) => setPrompt(e.target.value)}
+                value={prompt}
+              ></textarea>
+              <StyleSelect onStyleChange={setStyleId} />
+              <div className="flex justify-center mt-6">
+                <Button onClick={generate}>Generate</Button>
+                <Button
+                  type="secondary"
+                  onClick={() => {
+                    setPrompt('')
+                    document.getElementById('message')?.focus()
+                  }}
+                >
+                  Clear
+                </Button>
+              </div>
+            </div>
+          )}
+          {currentEvent === 'none' && (
+            <Info>
+              There is currently no event running for which we could generate
+              art!
+            </Info>
+          )}
         </Container>
       </div>
 

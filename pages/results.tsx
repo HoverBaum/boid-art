@@ -2,8 +2,11 @@ import { initializeApp } from 'firebase/app'
 import { onSnapshot, collection, getFirestore } from 'firebase/firestore'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { Info } from '../src/components/Info'
+import { Spinner } from '../src/components/Spinner'
 import { nameForStyleId } from '../src/styles/styleUtils'
 import { PredictionType } from '../src/types'
+import { useCurrentEvent } from '../src/useCurrentEvent'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDrFGtn4vq55dBg_rwF_sz2WLRsL7bo2RM',
@@ -23,9 +26,12 @@ const predictionByDateDesc = (a: PredictionType, b: PredictionType) => {
 
 export default function Results() {
   const [predictions, setPredictions] = useState<PredictionType[]>([])
+  const { currentEvent } = useCurrentEvent()
 
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, 'predictions'), (snapshot) => {
+    console.log(currentEvent)
+    if (currentEvent === 'loading' || currentEvent === 'none') return
+    const unsub = onSnapshot(collection(db, currentEvent), (snapshot) => {
       console.log('📡 snapshot received')
       const predictions = snapshot.docs.map((doc) =>
         doc.data()
@@ -34,7 +40,7 @@ export default function Results() {
       setPredictions(sortedPredictions)
     })
     return unsub
-  }, [])
+  }, [currentEvent])
 
   const linkStyle = {
     letterSpacing: 5,
@@ -46,6 +52,12 @@ export default function Results() {
         {'<'}-- GENERATE
       </Link>
       <div className="p-16">
+        {currentEvent === 'none' && (
+          <Info>
+            There is currently no event running for which to display images.
+          </Info>
+        )}
+
         <div className="my-6 pl-8 pr-8 grid grid-cols-4 sm:grid-cols-4 gap-8">
           {predictions.map((prediction) => (
             <figure key={prediction.id}>
@@ -63,7 +75,8 @@ export default function Results() {
               </div>
               <figcaption className="pt-2">
                 <p className="font-light text-sm">
-                  {prediction.originalPrompt}
+                  {prediction.originalPrompt.substring(0, 100)}
+                  {prediction.originalPrompt.length > 100 && '…'}
                 </p>
               </figcaption>
             </figure>

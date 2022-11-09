@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { currentEventId } from '../../../src/apiUtils/events'
 import { firestore } from '../../../src/apiUtils/firestore'
 import { ReplicateState } from '../../../src/replicate'
 import { PredictionType } from '../../../src/types'
@@ -18,12 +19,21 @@ type SuccessResponse = {
   id: string
 }
 
+type Error = {
+  message: string
+}
+
 export type PredictionIdResponse = Data | SuccessResponse
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<PredictionIdResponse>
+  res: NextApiResponse<PredictionIdResponse | Error>
 ) {
+  const eventId = currentEventId()
+  if (!eventId) {
+    return res.status(503).send({ message: 'No event running' })
+  }
+
   const id = Array.isArray(req.query.id) ? req.query.id[0] : req.query.id || ''
   const result = await fetch(`https://api.replicate.com/v1/predictions/${id}`, {
     method: 'GET',
@@ -46,10 +56,7 @@ export default async function handler(
       status: json.status,
     }
     console.log('💾 Saving prediction: ', prediction)
-    const doc = await firestore
-      .collection('predictions')
-      .doc(id)
-      .update(prediction)
+    const doc = await firestore.collection(eventId).doc(id).update(prediction)
     console.log('💾 Saving to firebase successful', doc)
   }
 

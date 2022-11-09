@@ -1,5 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { currentEventId } from '../../../src/apiUtils/events'
 import { firestore } from '../../../src/apiUtils/firestore'
 import { ReplicateState } from '../../../src/replicate'
 import { stylePrompt } from '../../../src/styles/stylePrompt'
@@ -22,6 +23,12 @@ export default async function handler(
   // Only except POST requests.
   if (req.method !== 'POST') {
     return res.status(405).send({ message: 'Only POST requests allowed' })
+  }
+
+  const eventId = currentEventId()
+  if (!eventId) {
+    console.log('No event running')
+    return res.status(503).send({ message: 'No event running' })
   }
 
   // Get prompt from body and return if no prompt was supplied.
@@ -67,7 +74,7 @@ export default async function handler(
     styleId,
   }
   await firestore
-    .collection('predictions')
+    .collection(eventId)
     .doc(replicateResponse.id)
     .set(predictionInfo)
 
