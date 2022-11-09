@@ -1,12 +1,12 @@
 import { initializeApp } from 'firebase/app'
 import { onSnapshot, collection, getFirestore } from 'firebase/firestore'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { Info } from '../src/components/Info'
-import { Spinner } from '../src/components/Spinner'
-import { nameForStyleId } from '../src/styles/styleUtils'
-import { PredictionType } from '../src/types'
-import { useCurrentEvent } from '../src/useCurrentEvent'
+import { Info } from '../../src/components/Info'
+import { nameForStyleId } from '../../src/styles/styleUtils'
+import { PredictionType } from '../../src/types'
+import { useCurrentEvent } from '../../src/useCurrentEvent'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDrFGtn4vq55dBg_rwF_sz2WLRsL7bo2RM',
@@ -27,10 +27,12 @@ const predictionByDateDesc = (a: PredictionType, b: PredictionType) => {
 export default function Results() {
   const [predictions, setPredictions] = useState<PredictionType[]>([])
   const { currentEvent } = useCurrentEvent()
+  const router = useRouter()
+  const { event } = router.query
 
   useEffect(() => {
-    console.log(currentEvent)
-    if (currentEvent === 'loading' || currentEvent === 'none') return
+    if (!currentEvent) return
+    const eventToUse = (event as String) || currentEvent
     const unsub = onSnapshot(collection(db, currentEvent), (snapshot) => {
       console.log('📡 snapshot received')
       const predictions = snapshot.docs.map((doc) =>
