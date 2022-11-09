@@ -105,12 +105,16 @@ export const ImageGeneration = () => {
   }, [pastPredictions, predictionResponse])
 
   const linkStyle = {
-    letterSpacing: 5
-  };
+    letterSpacing: 5,
+  }
 
   return (
     <div>
-      <Link className="absolute top-6 z-10 right-6" style={linkStyle} href="/results">
+      <Link
+        className="absolute top-6 z-10 right-6"
+        style={linkStyle}
+        href="/results"
+      >
         ART GALLERY --{'>'}
       </Link>
       <div className="h-screen bg-[url('/unicorn-marble.png')] bg-cover bg-center bg-no-repeat grid place-items-center px-4">
@@ -150,7 +154,12 @@ export const ImageGeneration = () => {
       <div id="prediction" className="h-screen grid place-items-center">
         <Container>
           <div className="sm:w-[512px] sm:h-[512px] w-[350px] h-[350px] rounded-2xl overflow-hidden grid place-items-center bg-gray-50 bg-opacity-25">
-            {isRunningPrediction && <Spinner />}
+            {isRunningPrediction && (
+              <div>
+                <Spinner />
+                <p className="text-center mt-4 opacity-75">{status}</p>
+              </div>
+            )}
             {status === 'succeeded' && <img key={imageUrl} src={imageUrl} />}
             {(status === 'failed' || status === 'canceled') && (
               <>
