@@ -23,6 +23,8 @@ const predictionByDateDesc = (a: PredictionType, b: PredictionType) => {
   return a.completedAt > b.completedAt ? -1 : 1
 }
 
+const onlyWithImages = (prediction: PredictionType) => !!prediction.imageUrl
+
 export default function Results() {
   const [predictions, setPredictions] = useState<PredictionType[]>([])
   const router = useRouter()
@@ -39,7 +41,9 @@ export default function Results() {
       const predictions = snapshot.docs.map((doc) =>
         doc.data()
       ) as PredictionType[]
-      const sortedPredictions = predictions.sort(predictionByDateDesc)
+      const sortedPredictions = predictions
+        .sort(predictionByDateDesc)
+        .filter(onlyWithImages)
       setPredictions(sortedPredictions)
     })
     return unsub
