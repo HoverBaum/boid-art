@@ -22,5 +22,7 @@ export type StyleType = {
   // Description of the style.
   description: string
   // Image to display for this style.
-  image: StaticImageData
+  image?: StaticImageData
+  // For positioning image on style select buttons. Defaults to "center".
+  imagePosition?: 'top' | 'bottom'
 }

@@ -18,15 +18,27 @@ export const StyleSelect: ComponentType<StyleSelectProps> = ({
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-5 p-4 gap-4">
-      {styles.map(({ id, name, image }) => (
+      {styles.map(({ id, name, image, imagePosition }) => (
         <div
-          className={`rounded-lg overflow-hidden relative ${
+          className={`rounded-lg overflow-hidden relative bg-slate-900 ${
             selectedStyleId === id ? 'outline' : 'grayscale'
           } hover:grayscale-0 hover:cursor-pointer`}
           key={id}
           onClick={() => onStyleSelect(id)}
         >
-          <Image src={image} alt={name} className="object-cover h-12 sm:h-10" />
+          {image && (
+            <Image
+              src={image}
+              alt={name}
+              className={`object-cover object-top h-12 ${
+                imagePosition
+                  ? imagePosition === 'top'
+                    ? 'object-top'
+                    : 'object-bottom'
+                  : 'object-center'
+              } `}
+            />
+          )}
           <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-sm">
             {name}
           </span>

@@ -1,9 +1,9 @@
 import { StyleType } from '../types'
 import defaultImage from '../images/default.png'
-import picassoImage from '../images/picasso-4.png'
-import goldenHourImage from '../images/golden-hour-4.png'
-import ghibliCyberpunkImage from '../images/ghibli-cyberpunk-4.png'
-import conceptArtImage from '../images/concept-art-4.png'
+import picassoImage from '../images/picasso-6.png'
+import goldenHourImage from '../images/golden-hour-2.png'
+import ghibliCyberpunkImage from '../images/ghibli-cyberpunk-1.png'
+import conceptArtImage from '../images/concept-art-1.png'
 
 export const styles: StyleType[] = [
   {
@@ -11,7 +11,6 @@ export const styles: StyleType[] = [
     id: 'default',
     name: 'No style',
     description: 'The default style, no special effects.',
-    image: defaultImage,
   },
   {
     style: 'by Pablo Picasso',
@@ -19,6 +18,7 @@ export const styles: StyleType[] = [
     name: 'Picasso',
     description: 'Like a painting by Pablo Picasso.',
     image: picassoImage,
+    imagePosition: 'top',
   },
   {
     style:
@@ -37,6 +37,7 @@ export const styles: StyleType[] = [
     description:
       'Cyberpunk inspired art that Studio Ghibli might use for backgorunds in their animes.',
     image: ghibliCyberpunkImage,
+    imagePosition: 'bottom',
   },
   {
     style:
@@ -45,5 +46,6 @@ export const styles: StyleType[] = [
     name: 'Concept Art',
     description: 'A concept art style that will give you rougher forms.',
     image: conceptArtImage,
+    imagePosition: 'top',
   },
 ]
