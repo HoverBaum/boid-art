@@ -58,14 +58,14 @@ export default function Results() {
       <Link className="absolute top-6 z-10 left-6" style={linkStyle} href="/">
         {'<'}-- GENERATE
       </Link>
-      <div className="p-16">
+      <div className="p-8 pt-16 sm:p-16">
         {currentEvent === 'none' && (
           <Info>
             There is currently no event running for which to display images.
           </Info>
         )}
 
-        <div className="my-6 pl-8 pr-8 grid grid-cols-4 sm:grid-cols-4 gap-8">
+        <div className=" grid grid-cols-2 sm:grid-cols-4 gap-8">
           {predictions.map((prediction) => (
             <figure key={prediction.id}>
               <div className="group relative">

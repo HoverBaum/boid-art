@@ -17,7 +17,7 @@ export const Button: ComponentType<PropsWithChildren<ButtonProps>> = ({
       <button
         disabled={disabled}
         onClick={onClick}
-        className="text-blac bg-inherit hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 border-gray-50 border-2"
+        className="text-blac bg-inherit hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-3 mr-2 mb-2 border-gray-50 border-2"
       >
         {children}
       </button>
@@ -28,7 +28,7 @@ export const Button: ComponentType<PropsWithChildren<ButtonProps>> = ({
     <button
       disabled={disabled}
       onClick={onClick}
-      className="text-black font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 bg-gray-50 hover:bg-gray-200 border-2"
+      className="text-black font-medium rounded-lg text-sm px-5 py-3 mr-2 mb-2 bg-gray-50 hover:bg-gray-200 border-2"
     >
       {children}
     </button>
