@@ -20,6 +20,7 @@ export default function Home() {
               GitHub
             </a>
           </p>
+          <p>Header image generated using Stable Diffusion</p>
         </div>
       </Container>
     </div>
