@@ -1,8 +1,7 @@
 import { StyleType } from '../types'
-import defaultImage from '../images/default.png'
 import picassoImage from '../images/picasso-6.png'
 import goldenHourImage from '../images/golden-hour-2.png'
-import ghibliCyberpunkImage from '../images/ghibli-cyberpunk-1.png'
+import ghibliCyberpunkImage from '../images/ghibli-cyberpunk-2.png'
 import conceptArtImage from '../images/concept-art-1.png'
 
 export const styles: StyleType[] = [
