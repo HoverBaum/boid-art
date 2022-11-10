@@ -175,9 +175,9 @@ export const ImageGeneration = () => {
       </div>
 
       {/* Predoction area */}
-      <div id="prediction" className="h-screen grid place-items-center">
+      <div id="prediction" className="h-screen grid place-items-center p-4">
         <Container>
-          <div className="sm:w-[512px] sm:h-[512px] w-[350px] h-[350px] rounded-2xl overflow-hidden grid place-items-center bg-gray-50 bg-opacity-25">
+          <div className="sm:w-[512px] sm:h-[512px] w-[350px] h-[350px] rounded-2xl overflow-hidden grid place-items-center bg-gray-50 bg-opacity-25 mx-auto">
             {isRunningPrediction && (
               <div>
                 <Spinner />
