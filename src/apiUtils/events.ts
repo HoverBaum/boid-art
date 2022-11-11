@@ -15,6 +15,11 @@ const events: EventType[] = [
     end: 1668092400,
     id: 'TestEvent',
   },
+  {
+    start: 1668171706,
+    end: 1668196931,
+    id: 'BoidArt',
+  },
 ]
 
 export const currentEventId = (): string | undefined => {
