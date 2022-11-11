@@ -15,6 +15,7 @@ Made possible by AVA Boids from [Netlight](http://netlight.com/).
 The app collects images into "Events". You are only able to generate image when an event is running. Here is a list of past events and where to find their generated images:
 
 - [StartUps and Boids](https://boid-art.vercel.app/results/StartUpAndBoids)
+- [Boid Art Friday](https://boid-art.vercel.app/results/BoidArt)
 
 ## Development
 
